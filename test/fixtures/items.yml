@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  name: MyString
+  image: MyString
+  description: MyText
+  target_price: 
+  limited_at: 2016-12-10
+
+two:
+  user_id: 1
+  name: MyString
+  image: MyString
+  description: MyText
+  target_price: 
+  limited_at: 2016-12-10

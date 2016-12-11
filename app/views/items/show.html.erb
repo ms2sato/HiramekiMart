@@ -1,17 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>User:</strong>
+  <strong>出品者:</strong>
   <%= @item.user.name %>
 </p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>商品名:</strong>
   <%= @item.name %>
 </p>
 
 <p>
-  <strong>Image:</strong>
+  <strong>商品イメージ:</strong><br>
   <% if @item.image? %>
   　　<%= image_tag @item.image.thumb.url, width: '200' %>
   　<% else %>
@@ -20,19 +20,23 @@
 </p>
 
 <p>
-  <strong>Description:</strong>
+  <strong>商品について:</strong>
   <%= @item.description %>
 </p>
 
 <p>
-  <strong>Target price:</strong>
+  <strong>目標額:</strong>
   <%= number_to_currency(@item.target_price, :locale => 'jp') %>
 </p>
 
 <p>
-  <strong>Limited at:</strong>
+  <strong>終了日:</strong>
   <%= @item.limited_at.strftime('%Y年%m月%d日') %>
 </p>
+
+<p><%= @item.supports.count %>人が支援しています。</p>
+
+<p><%= link_to 'このコースに申し込む', buy_path(@item), method: :post %></p>
 
 <%= link_to 'Edit', edit_item_path(@item) %> |
 <%= link_to 'Back', root_path %>

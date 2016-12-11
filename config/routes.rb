@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
   root 'items#index'
   resources :items,only:[:new, :create, :show, :update, :edit, :destroy]
+  post 'supports/:item_id' => 'supports#buy', as: 'buy'
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

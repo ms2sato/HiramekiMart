@@ -25,7 +25,9 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = current_user.items.build(item_params)
-
+    if @item.target_price
+      @item.target_price.tr!("０-９", "0-9")
+    end
     respond_to do |format|
       if @item.save
         format.html { redirect_to @item, notice: 'Item was successfully created.' }

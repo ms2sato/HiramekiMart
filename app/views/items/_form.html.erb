@@ -31,11 +31,15 @@
   </div>
   <div class="field">
     <%= f.label :target_price %><br>
-    <%= f.text_field :target_price, :placeholder => "70000"  %>
   </div>
   <div class="field">
     <%= f.label :limited_at %><br>
-    <%= f.date_select :limited_at %>
+    <%= raw sprintf(
+                  f.date_select(
+                      :limited_at,
+                      use_month_numbers: true,
+                      date_separator:    '%s'),
+                  '年 ', '月 ') + '日' %>
   </div>
   <div class="actions">
     <%= f.submit %>

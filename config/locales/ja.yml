@@ -167,6 +167,14 @@ ja:
         significant: false
         strip_insignificant_zeros: false
         unit: 円
+jp:
+  number:
+    currency:
+      format:
+        unit: "円"
+        format: "%n%u"
+        negative_format: "-%n%u"
+        precision: 0        
     format:
       delimiter: ","
       precision: 3

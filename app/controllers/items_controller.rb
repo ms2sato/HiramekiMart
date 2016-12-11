@@ -24,7 +24,7 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(item_params)
+    @item = current_user.items.build(item_params)
 
     respond_to do |format|
       if @item.save
@@ -56,7 +56,7 @@ class ItemsController < ApplicationController
   def destroy
     @item.destroy
     respond_to do |format|
-      format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
+      format.html { redirect_to root_url, notice: 'Item was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -27,6 +27,8 @@ gem 'carrierwave'
 gem 'rmagick'
 #テキストフィールドに自動的にカンマや通貨記号を挿入
 gem 'autonumeric-rails'
+#devise
+gem 'devise'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

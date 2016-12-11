@@ -1,4 +1,6 @@
 class Item < ActiveRecord::Base
+  #relation
+  belongs_to :user
   #Imgge_uploader
   mount_uploader :image, ImageUploader
   #validation

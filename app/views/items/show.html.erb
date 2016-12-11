@@ -2,7 +2,7 @@
 
 <p>
   <strong>User:</strong>
-  <%= @item.user_id %>
+  <%= @item.user.name %>
 </p>
 
 <p>
@@ -35,4 +35,4 @@
 </p>
 
 <%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+<%= link_to 'Back', root_path %>

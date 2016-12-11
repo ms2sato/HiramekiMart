@@ -5,12 +5,12 @@
 <table>
   <thead>
     <tr>
-      <th>User</th>
-      <th>Name</th>
-      <th>Image</th>
-      <th>Description</th>
-      <th>Target price</th>
-      <th>Limited at</th>
+      <th>出品者</th>
+      <th>商品名</th>
+      <th>商品イメージ</th>
+      <th>商品の説明</th>
+      <th>目標金額</th>
+      <th>終了日</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,11 +18,11 @@
   <tbody>
     <% @items.each do |item| %>
       <tr>
-        <td><%= item.user_id %></td>
+        <td><%= item.user.name %></td>
         <td><%= item.name %></td>
         <td><%= item.image %></td>
         <td><%= item.description %></td>
-        <td><%= item.target_price %></td>
+        <td><%= number_to_currency(item.target_price, :locale => 'jp') %></td>
         <td><%= item.limited_at.strftime('%Y年%m月%d日') %></td>
         <td><%= link_to 'Show', item %></td>
         <td><%= link_to 'Edit', edit_item_path(item) %></td>

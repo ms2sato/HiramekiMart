@@ -12,7 +12,11 @@
 
 <p>
   <strong>Image:</strong>
-  <%= @item.image %>
+  <% if @item.image? %>
+  　　<%= image_tag @item.image.thumb.url, width: '200' %>
+  　<% else %>
+  　　<%= image_tag 'now_printing.png', width: '200'  %>
+  <% end %>
 </p>
 
 <p>

@@ -21,7 +21,9 @@
   </div>
   <div class="field">
     <%= f.label :image %><br>
-    <%= f.text_field :image %>
+    <%= image_tag @item.image.thumb.url, width: '100' if @item.image? %><br>
+    <%= f.file_field :image %>
+    <%= f.hidden_field :image_cache %>
   </div>
   <div class="field">
     <%= f.label :description %><br>

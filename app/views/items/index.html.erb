@@ -23,7 +23,7 @@
         <td><%= item.image %></td>
         <td><%= item.description %></td>
         <td><%= item.target_price %></td>
-        <td><%= item.limited_at %></td>
+        <td><%= item.limited_at.strftime('%Y年%m月%d日') %></td>
         <td><%= link_to 'Show', item %></td>
         <td><%= link_to 'Edit', edit_item_path(item) %></td>
         <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>

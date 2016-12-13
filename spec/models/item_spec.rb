@@ -13,7 +13,7 @@ describe Item do
     expect(item.errors[:name]).to be_present
   end
 
-  it "nameが225文字以上ならNG" do
+  it "nameが20文字以上ならNG" do
     str = "a"*21
     item = Item.new(name: str, target_price: 100)
     expect(item).not_to be_valid

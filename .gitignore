@@ -6,8 +6,16 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle
 
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
 /tmp
+
+/Gemfile.lock
+/public/uploads
+
+!/spec
+
+.env

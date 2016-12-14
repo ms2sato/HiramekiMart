@@ -56,7 +56,7 @@ describe Item do
     item = Item.new(
       name: "アイテム名",
       target_price: 100,
-      "limited_at(1i)"=>d.year.to_s, "limited_at(2i)"=> d.month.to_s, "limited_at(3i)"=> d.day.to_s
+      limited_at: d,
     )
     expect(item).to be_valid
   end
@@ -66,7 +66,7 @@ describe Item do
     item = Item.new(
       name: "アイテム名",
       target_price: 100,
-      "limited_at(1i)"=>d.year.to_s, "limited_at(2i)"=> d.month.to_s, "limited_at(3i)"=> d.day.to_s
+      limited_at: d,
     )
     expect(item).not_to be_valid
   end

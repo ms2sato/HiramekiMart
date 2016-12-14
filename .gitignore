@@ -15,7 +15,5 @@
 
 /Gemfile.lock
 /public/uploads
-
 !/spec
-
 .env

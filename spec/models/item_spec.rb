@@ -19,9 +19,15 @@ describe Item do
   end
 
   # target_price(目標金額)、not null、数字のみ
+
   it "target_priceが存在すればOK" do
     item = Item.new(name: "アイテム名", target_price: 100)
     expect(item).to be_valid
+  end
+
+  it "target_priceが存在しなければNG" do
+      item = Item.new(name: "アイテム名", target_price: "")
+      expect(item).not_to be_valid
   end
 
   it "target_priceがアルファベットならNG" do
@@ -39,8 +45,8 @@ describe Item do
       expect(item).not_to be_valid
   end
 
-  it "target_priceが空欄ならNG" do
-      item = Item.new(name: "アイテム名", target_price: "")
+  it "target_priceがゼロならNG" do
+      item = Item.new(name: "アイテム名", target_price: 0)
       expect(item).not_to be_valid
   end
 

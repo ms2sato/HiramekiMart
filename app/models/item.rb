@@ -9,4 +9,9 @@ class Item < ActiveRecord::Base
   validates :target_price, presence: true, numericality: {
             only_integer: true, greater_than: 0
           }
+
+  #check if you can edit
+  def editable_by?(user)
+    self.user_id == user.id
+  end
 end

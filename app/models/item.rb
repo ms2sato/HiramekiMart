@@ -16,4 +16,9 @@ class Item < ActiveRecord::Base
       errors.add(:limited_at, "には過去の日付は使用できません")
     end
   end
+
+  #check if you can edit
+  def editable_by?(user)
+    self.user_id == user.id
+  end
 end

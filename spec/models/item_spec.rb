@@ -71,3 +71,30 @@ describe Item do
     expect(item).not_to be_valid
   end
 end
+
+describe 'editable_by?' do
+  # editable_by?(user)　＊＊Itemを作成したuserかどうか真偽値で返す＊＊
+  it "userがitemの作成者なので、真" do
+    item = Item.new(user_id: 123, name: "アイテム名", target_price: 100)
+    user = User.new(
+      id:123,
+      name: "ユーザ名",
+      email: "user@test.com",
+      password: "password",
+      password_confirmation: "password"
+    )
+    expect(item.editable_by?(user)).to eq true
+  end
+
+  it "userがitemの作成者ではないので、偽" do
+    item = Item.new(user_id: 12345, name: "アイテム名", target_price: 100)
+    user = User.new(
+      id:555,
+      name: "ユーザ名",
+      email: "user@test.com",
+      password: "password",
+      password_confirmation: "password"
+    )
+    expect(item.editable_by?(user)).to eq false
+  end
+end

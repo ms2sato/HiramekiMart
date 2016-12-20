@@ -32,7 +32,7 @@ describe Item do
   end
 
   it "target_priceが記号ならNG" do
-    item.target_price = ""
+    item.target_price = "@"
       expect(item).not_to be_valid
   end
 

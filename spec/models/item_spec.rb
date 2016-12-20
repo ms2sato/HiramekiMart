@@ -66,7 +66,7 @@ describe 'editable_by?' do
 
   it "userがitemの作成者ではないので、偽" do
     user = User.create(
-      id:123,
+      id:555,
       name: "ユーザ名",
       email: "user@test.com",
       password: "password",

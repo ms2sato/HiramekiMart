@@ -47,7 +47,6 @@ describe Item do
   end
 
   # limited_at(募集期間の終了日)、過去の日付は不可
-
   it "limited_atが過去の日付ならNG" do
     item.limited_at = Date.today-1
     expect(item).not_to be_valid
@@ -55,23 +54,15 @@ describe Item do
 end
 
 describe 'editable_by?' do
-  let(:item){ FactoryGirl.build(:item)}
-
+  let(:item){ FactoryGirl.build(:item) }
+  let(:other){ FactoryGirl.build(:user) }
 
   # editable_by?(user)　＊＊itemを作成したuserかどうか真偽値で返す＊＊
   it "userがitemの作成者なので、真" do
-    user = item.user
-    expect(item.editable_by?(user)).to eq true
+    expect(item.editable_by?(item.user)).to eq true
   end
 
   it "userがitemの作成者ではないので、偽" do
-    user = User.create(
-      id:555,
-      name: "ユーザ名",
-      email: "user@test.com",
-      password: "password",
-      password_confirmation: "password"
-    )
-    expect(item.editable_by?(user)).to eq false
+    expect(item.editable_by?(other)).to eq false
   end
 end

@@ -38,5 +38,7 @@
 
 <p><%= link_to 'このコースに申し込む', buy_path(@item), method: :post %></p>
 
-<%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', root_path %>
+ <% if user_signed_in? && @item.editable_by?(current_user) %>
+  <%= link_to 'Edit', edit_item_path(@item) %> |
+ <% end %>
+ <%= link_to 'Back', root_path %>

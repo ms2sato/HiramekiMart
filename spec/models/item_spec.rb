@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Item do
-  let(:item){ FactoryGirl.build(:item)}
+  let(:item) { FactoryGirl.build(:item) }
 
   # 以下の４つの属性に対して値をセットしてvaildとなるか確認する
   it "user_id, name, target_price, limited_atが存在すればOK" do

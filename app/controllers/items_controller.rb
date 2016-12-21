@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  before_filter :authenticate_user!, :except=>[:index, :show]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :check_editable, only: [:edit, :update, :destroy]
 
   # GET /items
   # GET /items.json
@@ -73,5 +73,10 @@ class ItemsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
       params.require(:item).permit(:user_id, :name, :image, :image_cache, :description, :target_price, :limited_at)
+    end
+
+    # Check if the owner of the item.
+    def check_editable
+      raise PermissionDeniedError, "アクセス権がありません" unless @item.editable_by?(current_user)
     end
 end

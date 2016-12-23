@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Item do
-  let(:item){ FactoryGirl.build(:item)}
+  let(:item) { FactoryGirl.build(:item) }
 
   # 以下の４つの属性に対して値をセットしてvaildとなるか確認する
   it "user_id, name, target_price, limited_atが存在すればOK" do
@@ -54,8 +54,8 @@ describe Item do
 end
 
 describe 'editable_by?' do
-  let(:item){ FactoryGirl.build(:item) }
-  let(:other){ FactoryGirl.build(:user) }
+  let(:item) { FactoryGirl.create(:item) }
+  let(:other) { FactoryGirl.create(:user) }
 
   # editable_by?(user)　＊＊itemを作成したuserかどうか真偽値で返す＊＊
   it "userがitemの作成者なので、真" do

@@ -66,3 +66,18 @@ describe 'editable_by?' do
     expect(item.editable_by?(other)).to eq false
   end
 end
+
+describe 'add_fav' do
+  let(:item) { FactoryGirl.create(:item) }
+  let(:other) { FactoryGirl.create(:user) }
+
+  # user_idとitem_idが異なればvalid
+  it "他のユーザの出品したアイテムをお気に入りに追加できる" do
+    expect(item.add_fav(other)).to be_valid
+  end
+
+  # user_idとitem_idが同一ならStanderdErrorを投げる
+  it "自分がオーナーのアイテムはお気に入りに追加できない" do
+    expect{ (item.add_fav(item.user)) }.to raise_error(StandardError)
+  end
+end

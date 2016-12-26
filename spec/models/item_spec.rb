@@ -78,6 +78,6 @@ describe 'add_fav' do
 
   # user_idとitem_idが同一ならStanderdErrorを投げる
   it "自分がオーナーのアイテムはお気に入りに追加できない" do
-    expect{ (item.add_fav(item.user)) }.to raise_error(StandardError)
+    expect{ item.add_fav(item.user) }.to raise_error(StandardError)
   end
 end

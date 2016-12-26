@@ -25,10 +25,7 @@ class Item < ActiveRecord::Base
 
   #add a item to your favorites
   def add_fav(user)
-    if self.user_id != user.id
-      user.favorites.create!(item_id: self.id)
-    else
-      raise StandardError, "このアイテムのオーナー様は、アイテムをお気に入り登録できません"
-    end
+    raise StandardError, "このアイテムのオーナー様は、アイテムをお気に入り登録できません" if self.user_id == user.id
+    user.favorites.create!(item_id: self.id)
   end
 end

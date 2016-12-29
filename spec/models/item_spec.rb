@@ -72,8 +72,11 @@ describe 'add_fav' do
   let(:other) { FactoryGirl.create(:user) }
 
   # user_idとitem_idが異なればお気に入りが一件作成される
-  it "user_idとitem_idに正しい値が保存されている" do
+  it "user_idに有効な情報が保持されている" do
     expect(item.add_fav(other).item_id).to eq item.id
+  end
+
+  it "item_idに有効な情報が保持されている" do
     expect(item.add_fav(other).user_id).to eq other.id
   end
 

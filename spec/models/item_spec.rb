@@ -71,9 +71,14 @@ describe 'add_fav' do
   let(:item) { FactoryGirl.create(:item) }
   let(:other) { FactoryGirl.create(:user) }
 
-  # user_idとitem_idが異なればvalid
-  it "他のユーザの出品したアイテムをお気に入りに追加できる" do
-    expect(item.add_fav(other)).to be_valid
+  # user_idとitem_idが異なればお気に入りが一件作成される
+  it "user_idとitem_idに正しい値が保存されている" do
+    expect(item.add_fav(other).item_id).to eq item.id
+    expect(item.add_fav(other).user_id).to eq other.id
+  end
+
+  it "favoritesテーブルに一件レコードが追加されている" do
+    expect{ item.add_fav(other) }.to change(Favorite, :count).by(1)
   end
 
   # user_idとitem_idが同一ならStanderdErrorを投げる

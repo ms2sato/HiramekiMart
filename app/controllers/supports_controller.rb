@@ -4,8 +4,7 @@ class SupportsController < ApplicationController
   before_action :authenticate_user!
 
   def buy
-    support = current_user.supports.build(item_id: @item.id)
-    support.save!
+    current_user.supports.create!(item_id: @item.id)
     redirect_to item_path(@item.id)
   end
 

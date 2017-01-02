@@ -2,6 +2,7 @@ class Item < ActiveRecord::Base
   #relation
   belongs_to :user
   has_many :supports, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   #Imgge_uploader
   mount_uploader :image, ImageUploader
   #validation
@@ -20,5 +21,11 @@ class Item < ActiveRecord::Base
   #check if you can edit
   def editable_by?(user)
     self.user_id == user.id
+  end
+
+  #add a item to your favorites
+  def add_fav(user)
+    raise StandardError, "このアイテムのオーナー様は、アイテムをお気に入り登録できません" if self.user_id == user.id
+    user.favorites.create!(item_id: self.id)
   end
 end

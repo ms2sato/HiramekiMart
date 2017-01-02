@@ -28,4 +28,9 @@ class Item < ActiveRecord::Base
     raise StandardError, "このアイテムのオーナー様は、アイテムをお気に入り登録できません" if self.user_id == user.id
     user.favorites.create!(item_id: self.id)
   end
+
+  #Find user's favorites
+  def find_fav(user)
+    user.favorites.find_by(item_id: self.id)
+  end
 end

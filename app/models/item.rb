@@ -31,11 +31,11 @@ class Item < ActiveRecord::Base
 
   #Find user's favorites
   def find_fav(user)
-    user.favorites.find_by(item_id: self.id)
+    @favorite = user.favorites.find_by(item_id: self.id)
   end
 
   #Is it a user's favorite?
   def favorited_by?(user)
-    user.favorites.find_by(item_id: self.id).present?
+    self.find_fav(user).present?
   end
 end

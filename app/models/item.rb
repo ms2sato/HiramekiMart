@@ -33,4 +33,9 @@ class Item < ActiveRecord::Base
   def find_fav(user)
     user.favorites.find_by(item_id: self.id)
   end
+
+  #Is it a user's favorite?
+  def favorited_by?(user)
+    user.favorites.find_by(item_id: self.id).present?
+  end
 end

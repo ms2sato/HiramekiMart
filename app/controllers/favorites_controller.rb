@@ -9,6 +9,7 @@ class FavoritesController < ApplicationController
 
   def destroy
     favorite = Favorite.find(params[:id])
+    raise PermissionDeniedError, "アクセス権がありません" unless favorite.user == current_user
     favorite.destroy
     redirect_to @item, notice: 'お気に入りから削除されました'
   end

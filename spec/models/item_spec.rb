@@ -110,12 +110,12 @@ describe 'favorited_by?' do
   let(:other) { FactoryGirl.create(:user) }
 
   #userがitemをお気に入りしているかどうか真偽値で返す
-  it "itemがお気に入りされているので" do
+  it "itemがお気に入りされているので、真" do
     favorite = other.favorites.create(item_id: item.id)
     expect(item.favorited_by?(other)).to eq true
   end
 
-  it "itemがお気に入りされていないので偽" do
+  it "itemがお気に入りされていないので、偽" do
     expect(item.favorited_by?(other)).to eq false
   end
 end

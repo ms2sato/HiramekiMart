@@ -88,4 +88,9 @@ describe 'add_fav' do
   it "自分がオーナーのアイテムはお気に入りに追加できない" do
     expect{ item.add_fav(item.user) }.to raise_error(StandardError)
   end
+
+  it "同じアイテムを複数回お気に入りにできない" do
+    expect(item.add_fav(other).item_id).to eq item.id
+    expect{ item.add_fav(other) }.to raise_error(ActiveRecord::RecordInvalid)
+  end
 end

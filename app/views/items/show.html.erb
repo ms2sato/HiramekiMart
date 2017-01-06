@@ -37,7 +37,16 @@
 
 <p><%= link_to 'このコースに申し込む', buy_path(@item), method: :post %></p>
 
- <% if user_signed_in? && @item.editable_by?(current_user) %>
-  <%= link_to 'Edit', edit_item_path(@item) %> |
- <% end %>
+<% if user_signed_in? && !@item.editable_by?(current_user) %>
+  <% if @item.favorited_by?(current_user) %>
+    <p><button><%= link_to 'お気に入りから削除', favorite_path(@item.find_fav(current_user), item_id: @item.id), method: :delete %></button></p>
+  <% else %>
+    <p><button><%= link_to 'お気に入りに登録', user_favorites_path(current_user.id, item_id: @item.id), method: :post %></button></p>
+  <% end %>
+<% end %>
+
+<% unless user_signed_in? %>
+  <p><button><%= link_to 'お気に入りに登録', user_favorites_path(0, item_id: @item.id), method: :post %></button></p>
+<% end %>
+
  <%= link_to 'Back', root_path %>

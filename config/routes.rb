@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   resources :items,only:[:new, :create, :show, :update, :edit, :destroy]
   post 'supports/:item_id' => 'supports#buy', as: 'buy'
   devise_for :users
+
+  resources :users, shallow:true do
+    resources :favorites,only:[:create, :destroy]
+  end  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

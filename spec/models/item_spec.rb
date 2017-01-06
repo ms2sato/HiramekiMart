@@ -89,3 +89,33 @@ describe 'add_fav' do
     expect{ item.add_fav(item.user) }.to raise_error(StandardError)
   end
 end
+
+describe 'find_fav' do
+  let(:item) { FactoryGirl.create(:item) }
+  let(:other) { FactoryGirl.create(:user) }
+
+  # userのお気に入りのデータを返す
+  it "favoriteが存在すれば有効な値が返される" do
+    favorite = other.favorites.create(item_id: item.id)
+    expect(item.find_fav(other).id).to eq favorite.id
+  end
+
+  it "favoriteが存在しなければnilが返される" do
+    expect(item.find_fav(other)).to eq nil
+  end
+end
+
+describe 'favorited_by?' do
+  let(:item) { FactoryGirl.create(:item) }
+  let(:other) { FactoryGirl.create(:user) }
+
+  #userがitemをお気に入りしているかどうか真偽値で返す
+  it "itemがお気に入りされているので、真" do
+    favorite = other.favorites.create(item_id: item.id)
+    expect(item.favorited_by?(other)).to eq true
+  end
+
+  it "itemがお気に入りされていないので、偽" do
+    expect(item.favorited_by?(other)).to eq false
+  end
+end

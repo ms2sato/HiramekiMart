@@ -33,7 +33,8 @@
   <%= @item.limited_at.strftime('%Y年%m月%d日') %>
 </p>
 
-<p><%= @item.supports.count %>人が支援しています。</p>
+<p><%= @item.supports.count %>件サポートされています。</p>
+<p><%= @item.favorites.count %>人にお気に入りされています。</p>
 
 <p><%= link_to 'このコースに申し込む', buy_path(@item), method: :post %></p>
 

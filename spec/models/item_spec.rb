@@ -46,10 +46,24 @@ describe Item do
       expect(item).not_to be_valid
   end
 
+  it "target_priceが全角数字ならOK" do
+    item.target_price = "１２３４５"
+      expect(item).not_to be_valid
+  end
+
   # limited_at(募集期間の終了日)、過去の日付は不可
   it "limited_atが過去の日付ならNG" do
     item.limited_at = Date.today-1
     expect(item).not_to be_valid
+  end
+end
+
+describe 'to_half_width' do
+  let(:item) { FactoryGirl.build(:item) }
+
+  it "target_priceが全角なら半角に変換する" do
+      item.target_price = "１２３４５"
+      expect(item.to_half_width).to eq "12345"
   end
 end
 

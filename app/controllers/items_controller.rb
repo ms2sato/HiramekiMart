@@ -29,9 +29,7 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = current_user.items.build(item_params)
-    if @item.target_price
-      @item.target_price.tr!("０-９", "0-9")
-    end
+    @item.to_half_width
     respond_to do |format|
       if @item.save
         format.html { redirect_to @item, notice: 'アイテムが出品されました' }

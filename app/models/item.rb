@@ -38,4 +38,9 @@ class Item < ActiveRecord::Base
   def favorited_by?(user)
     self.find_fav(user).present?
   end
+
+  #Convert full-width characters to half-width characters
+  def to_half_width
+    self.target_price.tr!("０-９", "0-9") if self.target_price
+  end
 end

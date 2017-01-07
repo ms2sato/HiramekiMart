@@ -2,6 +2,7 @@ class SupportsController < ApplicationController
   before_action :set_item
   before_action :store_event_url
   before_action :authenticate_user!
+  before_action :check_youcanbuy
 
   def buy
     current_user.supports.create!(item_id: @item.id)
@@ -16,5 +17,10 @@ private
 
   def store_event_url
     session[:user_return_to] = item_path(@item) unless user_signed_in?
+  end
+
+  # Check if the owner of the item.
+  def check_youcanbuy
+    raise PermissionDeniedError, "出品したアイテムはサポートできません" if @item.editable_by?(current_user)
   end
 end

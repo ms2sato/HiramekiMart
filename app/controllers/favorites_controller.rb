@@ -1,6 +1,6 @@
 class FavoritesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item
+  before_action :set_item, only: :create
 
   def create
     @item.add_fav(current_user)
@@ -11,7 +11,7 @@ class FavoritesController < ApplicationController
     favorite = Favorite.find(params[:id])
     raise PermissionDeniedError, "アクセス権がありません" unless favorite.user == current_user
     favorite.destroy
-    redirect_to @item, notice: 'お気に入りから削除されました'
+    redirect_to favorite.item, notice: 'お気に入りから削除されました'
   end
 
   private

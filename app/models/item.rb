@@ -38,4 +38,22 @@ class Item < ActiveRecord::Base
   def favorited_by?(user)
     self.find_fav(user).present?
   end
+
+  #scope
+  scope :low, -> { where target_price: 1..9999 }                  # 1 〜 19,999円
+  scope :middle, -> { where target_price: 10000..19999 }          #10,000 〜 19,999円
+  scope :high, -> { where target_price: 20000..Float::INFINITY }  #20,000円以上
+
+  #Set price range
+  def self.set_price_range(price)
+    if price.blank?
+      Item.all
+    elsif price == "low"
+      Item.low
+    elsif price == "middle"
+      Item.middle
+    elsif price == "high"
+      Item.high
+    end
+  end
 end

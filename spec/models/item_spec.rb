@@ -46,24 +46,15 @@ describe Item do
       expect(item).not_to be_valid
   end
 
-  it "target_priceが全角数字ならOK" do
+  it "target_priceが全角数字なら半角に変換される" do
     item.target_price = "１２３４５"
-      expect(item).not_to be_valid
+      expect(item.target_price).to eq "12345"
   end
 
   # limited_at(募集期間の終了日)、過去の日付は不可
   it "limited_atが過去の日付ならNG" do
     item.limited_at = Date.today-1
     expect(item).not_to be_valid
-  end
-end
-
-describe 'to_half_width' do
-  let(:item) { FactoryGirl.build(:item) }
-
-  it "target_priceが全角なら半角に変換する" do
-      item.target_price = "１２３４５"
-      expect(item.to_half_width).to eq "12345"
   end
 end
 
@@ -136,5 +127,19 @@ describe 'favorited_by?' do
 
   it "itemがお気に入りされていないので、偽" do
     expect(item.favorited_by?(other)).to eq false
+  end
+end
+
+describe 'owner?' do
+  let(:item) { FactoryGirl.create(:item) }
+  let(:other) { FactoryGirl.create(:user) }
+
+  # itemのownerかどうか真偽値で返す＊＊
+  it "userがitemのownerなので、真" do
+    expect(item.owner?(item.user)).to eq true
+  end
+
+  it "userがitemのownerではないので、偽" do
+    expect(item.owner?(other)).to eq false
   end
 end

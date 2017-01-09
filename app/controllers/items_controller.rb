@@ -29,7 +29,6 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = current_user.items.build(item_params)
-    @item.to_half_width
     respond_to do |format|
       if @item.save
         format.html { redirect_to @item, notice: 'アイテムが出品されました' }

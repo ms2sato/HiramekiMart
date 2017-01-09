@@ -23,6 +23,11 @@ class Item < ActiveRecord::Base
     self.user_id == user.id
   end
 
+  #check if the owner of the item
+  def owner?(user)
+    self.user_id == user.id
+  end
+
   #add a item to your favorites
   def add_fav(user)
     raise StandardError, "このアイテムのオーナー様は、アイテムをお気に入り登録できません" if self.user_id == user.id
@@ -39,8 +44,9 @@ class Item < ActiveRecord::Base
     self.find_fav(user).present?
   end
 
-  #Convert full-width characters to half-width characters
-  def to_half_width
-    self.target_price.tr!("０-９", "0-9") if self.target_price
+  #Convert ZENKAKU to HANKAKU characters
+  def target_price=(value)
+    value.tr!('０-９', '0-9') if value.is_a?(String)
+    super(value)
   end
 end

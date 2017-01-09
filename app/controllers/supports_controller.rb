@@ -2,7 +2,7 @@ class SupportsController < ApplicationController
   before_action :set_item
   before_action :store_event_url
   before_action :authenticate_user!
-  before_action :check_youcanbuy
+  before_action :check_buyable
 
   def buy
     current_user.supports.create!(item_id: @item.id)
@@ -20,7 +20,7 @@ private
   end
 
   # Check if the owner of the item.
-  def check_youcanbuy
-    raise PermissionDeniedError, "出品したアイテムはサポートできません" if @item.editable_by?(current_user)
+  def check_buyable
+    raise PermissionDeniedError, "出品したアイテムはサポートできません" if @item.owner?(current_user)
   end
 end

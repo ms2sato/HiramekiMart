@@ -124,3 +124,31 @@ describe 'favorited_by?' do
     expect(item.favorited_by?(other)).to eq false
   end
 end
+
+describe 'scope' do
+  let(:item) {
+    [
+      FactoryGirl.create(:item, target_price: 9999),
+      FactoryGirl.create(:item, target_price: 10000),
+      FactoryGirl.create(:item, target_price: 19999),
+      FactoryGirl.create(:item, target_price: 20000)
+    ]
+  }
+  describe 'low' do
+    it "スコープ「low」で「target_price <= 9,999」のデータを検索できる" do
+      expect(Item.price_range("low")).to include(item[0])
+    end
+  end
+
+  describe 'middle' do
+    it "スコープ「middle」で「10,000 <= target_price <= 19,999」のデータを検索できる" do
+      expect(Item.price_range("middle")).to include(item[1],item[2])
+    end
+  end
+
+  describe 'middle' do
+    it "スコープ「high」で「target_price >= 20,000」のデータを検索できる" do
+      expect(Item.price_range("high")).to include(item[3])
+    end
+  end
+end

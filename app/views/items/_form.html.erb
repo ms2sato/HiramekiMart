@@ -39,6 +39,10 @@
                       date_separator:    '%s'),
                   '年 ', '月 ') + '日' %>
   </div>
+  <div class="field">
+    <%= f.label :category %><br>
+    <%= f.select :category, Item.categories.keys, :prompt => "選択してください" %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -11,12 +11,12 @@ class Item < ActiveRecord::Base
             only_integer: true, greater_than: 0
           }
   validate :expiration_date_cannot_be_in_the_past
-
   def expiration_date_cannot_be_in_the_past
     if limited_at.present? && limited_at < Date.today
       errors.add(:limited_at, "には過去の日付は使用できません")
     end
   end
+  validates :category, presence: true
 
   #check if you can edit
   def editable_by?(user)
@@ -38,4 +38,7 @@ class Item < ActiveRecord::Base
   def favorited_by?(user)
     self.find_fav(user).present?
   end
+
+  # enum
+  enum category: { "おもちゃ・ゲーム・趣味": 0, "アウトドア・スポーツ": 1, "ワークスペース": 2, "ライフスタイル": 3, "その他": 4 }
 end

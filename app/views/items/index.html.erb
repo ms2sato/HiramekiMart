@@ -6,6 +6,6 @@
 <button><%= link_to '２０,０００円　〜', root_path(price: "high") %></button>
 <br>
 <br>
-<%= render partial: "item", :locals => {items: @items} %>
+<%= render "item",items: @items %>
 <br>
 <%= link_to 'New Item', new_item_path %>

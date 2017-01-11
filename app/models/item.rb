@@ -40,5 +40,5 @@ class Item < ActiveRecord::Base
   end
 
   # enum
-  enum category: { "おもちゃ・ゲーム・趣味": 0, "アウトドア・スポーツ": 1, "ワークスペース": 2, "ライフスタイル": 3, "その他": 4 }
+  enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
 end

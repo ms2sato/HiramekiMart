@@ -1,5 +1,11 @@
 <h1>アイテム一覧</h1>
 
-<%= render partial: "item", :locals => {items: @items} %>
+<p>▼ 価格帯</p>
+<button><%= link_to '〜　９,９９９円', root_path(price: "low") %></button>
+<button><%= link_to '１０,０００　〜　１９,９９９円', root_path(price: "middle") %></button>
+<button><%= link_to '２０,０００円　〜', root_path(price: "high") %></button>
+<br>
+<br>
+<%= render "item",items: @items %>
 <br>
 <%= link_to 'New Item', new_item_path %>

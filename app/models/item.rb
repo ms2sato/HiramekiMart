@@ -34,6 +34,11 @@ class Item < ActiveRecord::Base
     self.user_id == user.id
   end
 
+  #check if the owner of the item
+  def owner?(user)
+    self.user_id == user.id
+  end
+
   #add a item to your favorites
   def add_fav(user)
     raise StandardError, "このアイテムのオーナー様は、アイテムをお気に入り登録できません" if self.user_id == user.id
@@ -48,5 +53,11 @@ class Item < ActiveRecord::Base
   #Is it a user's favorite?
   def favorited_by?(user)
     self.find_fav(user).present?
+  end
+
+  #Convert ZENKAKU to HANKAKU characters
+  def target_price=(value)
+    value.tr!('０-９', '0-9') if value.is_a?(String)
+    super(value)
   end
 end

@@ -12,6 +12,7 @@ class ItemsController < ApplicationController
   # GET /items/1
   # GET /items/1.json
   def show
+    @favorite = @item.find_fav(current_user) if user_signed_in?
   end
 
   # GET /items/new

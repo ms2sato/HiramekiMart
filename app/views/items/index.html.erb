@@ -4,6 +4,7 @@
 <button><%= link_to '〜　９,９９９円', root_path(price: "low") %></button>
 <button><%= link_to '１０,０００　〜　１９,９９９円', root_path(price: "middle") %></button>
 <button><%= link_to '２０,０００円　〜', root_path(price: "high") %></button>
+<button><%= link_to 'すべてのアイテム', root_path %></button>
 <br>
 <br>
 <%= render "item",items: @items %>

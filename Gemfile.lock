@@ -78,6 +78,7 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    enum_help (0.0.16)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -220,6 +221,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   database_cleaner
   devise
+  enum_help
   factory_girl_rails
   jbuilder (~> 2.0)
   jquery-rails

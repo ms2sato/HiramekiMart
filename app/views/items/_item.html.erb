@@ -23,7 +23,7 @@
         <td><%= number_to_currency(item.target_price, :locale => 'jp') %></td>
         <td><%= item.supports.count %>人</td>
         <td><%= item.limited_at.strftime('%Y年%m月%d日') %></td>
-        <td><%= item.category %></td>
+        <td><%= item.category_i18n %></td>
         <td><%= link_to 'Show', item %></td>
         <% if user_signed_in? && item.editable_by?(current_user) %>
           <td><%= link_to 'Edit', edit_item_path(item) %></td>

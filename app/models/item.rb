@@ -18,8 +18,25 @@ class Item < ActiveRecord::Base
   end
   validates :category, presence: true
 
+  #scope
+  scope :low, -> { where target_price: 1..9999 }                  # 1 〜 19,999円
+  scope :middle, -> { where target_price: 10000..19999 }          #10,000 〜 19,999円
+  scope :high, -> { where target_price: 20000..Float::INFINITY }  #20,000円以上
+
+  scope :price_range, ->(price) {
+      return low if price == 'low'
+      return middle if price == 'middle'
+      return high if price == 'high'
+      all # 条件に合わなければall
+  }
+
   #check if you can edit
   def editable_by?(user)
+    self.user_id == user.id
+  end
+
+  #check if the owner of the item
+  def owner?(user)
     self.user_id == user.id
   end
 
@@ -41,4 +58,10 @@ class Item < ActiveRecord::Base
 
   # enum
   enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
+
+  #Convert ZENKAKU to HANKAKU characters
+  def target_price=(value)
+    value.tr!('０-９', '0-9') if value.is_a?(String)
+    super(value)
+  end
 end

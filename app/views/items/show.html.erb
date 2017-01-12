@@ -38,20 +38,42 @@
   <%= @item.category_i18n %>
 </p>
 
-<p><%= @item.supports.count %>人が支援しています。</p>
-
-<p><%= link_to 'このコースに申し込む', buy_path(@item), method: :post %></p>
-
+<!-- ログイン＆一般ユーザ用リンク -->
 <% if user_signed_in? && !@item.editable_by?(current_user) %>
+  <p>
+    <button><%= link_to 'このコースに申し込む', buy_path(@item), method: :post %></button>
+    <%= @item.supports.count %>件サポートされています。
+  </p>
+
   <% if @item.favorited_by?(current_user) %>
-    <p><button><%= link_to 'お気に入りから削除', favorite_path(@item.find_fav(current_user), item_id: @item.id), method: :delete %></button></p>
+    <p>
+      <button><%= link_to 'お気に入りから削除', favorite_path(@favorite), method: :delete %></button>
+      <%= @item.favorites.count %>人にお気に入りされています。
+    </p>
   <% else %>
-    <p><button><%= link_to 'お気に入りに登録', user_favorites_path(current_user.id, item_id: @item.id), method: :post %></button></p>
+    <p>
+      <button><%= link_to 'お気に入りに登録', user_favorites_path(current_user.id, item_id: @item.id), method: :post %></button>
+      <%= @item.favorites.count %>人にお気に入りされています。
+    </p>
   <% end %>
 <% end %>
 
+<!-- ログイン＆オーナーユーザ用リンク -->
+<% if user_signed_in? && @item.editable_by?(current_user) %>
+  <p><%= @item.supports.count %>件サポートされています。</p>
+  <p><%= @item.favorites.count %>人にお気に入りされています。</p>
+<% end %>
+
+<!-- 未ログインユーザ用リンク -->
 <% unless user_signed_in? %>
-  <p><button><%= link_to 'お気に入りに登録', user_favorites_path(0, item_id: @item.id), method: :post %></button></p>
+  <p>
+    <button><%= link_to 'このコースに申し込む', buy_path(@item), method: :post %></button>
+    <%= @item.supports.count %>件サポートされています。
+  </p>
+  <p>
+    <button><%= link_to 'お気に入りに登録', user_favorites_path(0, item_id: @item.id), method: :post %></button>
+    <%= @item.favorites.count %>人にお気に入りされています。
+  </p>
 <% end %>
 
  <%= link_to 'Back', root_path %>

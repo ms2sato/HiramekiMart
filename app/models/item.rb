@@ -11,12 +11,23 @@ class Item < ActiveRecord::Base
             only_integer: true, greater_than: 0
           }
   validate :expiration_date_cannot_be_in_the_past
-
   def expiration_date_cannot_be_in_the_past
     if limited_at.present? && limited_at < Date.today
       errors.add(:limited_at, "には過去の日付は使用できません")
     end
   end
+
+  #scope
+  scope :low, -> { where target_price: 1..9999 }                  # 1 〜 19,999円
+  scope :middle, -> { where target_price: 10000..19999 }          #10,000 〜 19,999円
+  scope :high, -> { where target_price: 20000..Float::INFINITY }  #20,000円以上
+
+  scope :price_range, ->(price) {
+      return low if price == 'low'
+      return middle if price == 'middle'
+      return high if price == 'high'
+      all # 条件に合わなければall
+  }
 
   #check if you can edit
   def editable_by?(user)

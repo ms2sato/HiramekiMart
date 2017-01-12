@@ -48,7 +48,7 @@ describe Item do
 
   it "target_priceが全角数字なら半角に変換される" do
     item.target_price = "１２３４５"
-      expect(item.target_price).to eq "12345"
+      expect(item.target_price).to eq 12345
   end
 
   # limited_at(募集期間の終了日)、過去の日付は不可
@@ -141,5 +141,33 @@ describe 'owner?' do
 
   it "userがitemのownerではないので、偽" do
     expect(item.owner?(other)).to eq false
+  end
+end
+
+describe 'scope' do
+  let(:items) {
+    [
+      FactoryGirl.create(:item, target_price: 9999),
+      FactoryGirl.create(:item, target_price: 10000),
+      FactoryGirl.create(:item, target_price: 19999),
+      FactoryGirl.create(:item, target_price: 20000)
+    ]
+  }
+  describe 'low' do
+    it "スコープ「low」で「target_price <= 9,999」のデータを検索できる" do
+      expect(Item.price_range("low")).to include(items[0])
+    end
+  end
+
+  describe 'middle' do
+    it "スコープ「middle」で「10,000 <= target_price <= 19,999」のデータを検索できる" do
+      expect(Item.price_range("middle")).to include(items[1],items[2])
+    end
+  end
+
+  describe 'high' do
+    it "スコープ「high」で「target_price >= 20,000」のデータを検索できる" do
+      expect(Item.price_range("high")).to include(items[3])
+    end
   end
 end

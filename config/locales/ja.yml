@@ -1,5 +1,13 @@
 ---
 ja:
+  enums:
+    item:
+      category:
+        toy_game: おもちゃ・ゲーム・趣味
+        outdoors_sports: アウトドア・スポーツ
+        workspace: ワークスペース
+        life_style: ライフスタイル
+        other: その他
   activerecord:
     errors:
       messages:
@@ -17,6 +25,7 @@ ja:
         created_at: 登録日時
         updated_at: 更新日時
         target_price: 目標金額
+        category: カテゴリー
       user:
         id: ID
         email: メールアドレス

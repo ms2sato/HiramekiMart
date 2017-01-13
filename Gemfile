@@ -29,6 +29,8 @@ gem 'rmagick'
 gem 'autonumeric-rails'
 #devise
 gem 'devise'
+#enum 日本語化
+gem 'enum_help'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

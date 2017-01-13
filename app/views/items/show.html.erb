@@ -33,6 +33,11 @@
   <%= @item.limited_at.strftime('%Y年%m月%d日') %>
 </p>
 
+<p>
+  <strong>カテゴリー:</strong>
+  <%= @item.category_i18n %>
+</p>
+
 <!-- ログイン＆一般ユーザ用リンク -->
 <% if user_signed_in? && !@item.editable_by?(current_user) %>
   <p>

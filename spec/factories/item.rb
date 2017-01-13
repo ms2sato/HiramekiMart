@@ -4,6 +4,7 @@ FactoryGirl.define do
     name "アイテム名"
     target_price 100
     limited_at Date.today
+    category 0
     user # ファクトリよびだし
   end
 end

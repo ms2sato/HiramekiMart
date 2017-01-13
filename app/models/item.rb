@@ -16,6 +16,7 @@ class Item < ActiveRecord::Base
       errors.add(:limited_at, "には過去の日付は使用できません")
     end
   end
+  validates :category, presence: true
 
   #scope
   scope :low, -> { where target_price: 1..9999 }                  # 1 〜 19,999円
@@ -54,6 +55,9 @@ class Item < ActiveRecord::Base
   def favorited_by?(user)
     self.find_fav(user).present?
   end
+
+  # enum
+  enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
 
   #Convert ZENKAKU to HANKAKU characters
   def target_price=(value)

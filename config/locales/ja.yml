@@ -1,5 +1,10 @@
 ---
 ja:
+  views:
+    pagination:
+      previous: "« 前ページ"
+      next: "次ページ »"
+      truncate: "..."
   enums:
     item:
       category:

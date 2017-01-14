@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.price_range(params[:price])
+    @items = Item.selected(params[:select])
   end
 
   # GET /items/1

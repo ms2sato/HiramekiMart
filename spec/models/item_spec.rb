@@ -4,7 +4,7 @@ describe Item do
   let(:item) { FactoryGirl.build(:item) }
 
   # 以下の４つの属性に対して値をセットしてvaildとなるか確認する
-  it "user_id, name, target_price, limited_at, categoryが存在すればOK" do
+  it "user_id, name, target_price, limited_at, category, retail_price, statusが存在すればOK" do
     expect(item).to be_valid
   end
 
@@ -60,6 +60,26 @@ describe Item do
   it "categoryが存在しなければNG" do
     item.category = nil
     expect(item).not_to be_valid
+  end
+
+  it "support_courseが存在しなければNG" do
+      item.support_course = nil
+      expect(item).not_to be_valid
+  end
+
+  it "support_courseがひらがなならNG" do
+    item.support_course = "あ"
+      expect(item).not_to be_valid
+  end
+
+  it "support_courseがゼロならNG" do
+    item.support_course = 0
+      expect(item).not_to be_valid
+  end
+
+  it "statusが存在しなければNG" do
+    item.status = nil
+      expect(item).not_to be_valid
   end
 end
 

@@ -20,35 +20,34 @@ describe Item do
   end
 
   # target_price(目標金額)、not null、数字のみ
-
   it "target_priceが存在しなければNG" do
-      item.target_price = nil
-      expect(item).not_to be_valid
+    item.target_price = nil
+    expect(item).not_to be_valid
   end
 
   it "target_priceがアルファベットならNG" do
-      item.target_price = "A"
-      expect(item).not_to be_valid
+    item.target_price = "A"
+    expect(item).not_to be_valid
   end
 
   it "target_priceが記号ならNG" do
     item.target_price = "@"
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 
   it "target_priceがひらがなならNG" do
     item.target_price = "あ"
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 
   it "target_priceがゼロならNG" do
     item.target_price = 0
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 
   it "target_priceが全角数字なら半角に変換される" do
     item.target_price = "１２３４５"
-      expect(item.target_price).to eq 12345
+    expect(item.target_price).to eq 12345
   end
 
   # limited_at(募集期間の終了日)、過去の日付は不可
@@ -63,23 +62,23 @@ describe Item do
   end
 
   it "support_courseが存在しなければNG" do
-      item.support_course = nil
-      expect(item).not_to be_valid
+    item.support_course = nil
+    expect(item).not_to be_valid
   end
 
   it "support_courseがひらがなならNG" do
     item.support_course = "あ"
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 
   it "support_courseがゼロならNG" do
     item.support_course = 0
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 
   it "statusが存在しなければNG" do
     item.status = nil
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 end
 

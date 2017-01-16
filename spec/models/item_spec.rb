@@ -207,10 +207,4 @@ describe 'scope' do
       expect(Item.category("other")).to include(items[4])
     end
   end
-
-  describe 'other' do
-    it "categoryが「other」のアイテムを検索できる" do
-      expect(Item.category("other")).to include(items[4])
-    end
-  end
 end

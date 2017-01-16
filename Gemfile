@@ -44,6 +44,7 @@ gem 'enum_help'
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  gem 'letter_opener_web'
 end
 
 group :development, :test do

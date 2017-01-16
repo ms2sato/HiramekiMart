@@ -152,58 +152,65 @@ end
 describe 'scope' do
   let(:items) {
     [
-      FactoryGirl.create(:item, target_price: 9999, category: 0),
-      FactoryGirl.create(:item, target_price: 10000, category: 1),
-      FactoryGirl.create(:item, target_price: 19999, category: 2),
-      FactoryGirl.create(:item, target_price: 20000, category: 3),
-      FactoryGirl.create(:item, target_price: 30000, category: 4)
+      FactoryGirl.create(:item, target_price: 9999, category: :toy_game),
+      FactoryGirl.create(:item, target_price: 10000, category: :outdoors_sports),
+      FactoryGirl.create(:item, target_price: 19999, category: :workspace),
+      FactoryGirl.create(:item, target_price: 20000, category: :life_style),
+      FactoryGirl.create(:item, target_price: 30000, category: :other)
     ]
   }
+
   describe 'low' do
     it "スコープ「low」で「target_price <= 9,999」のデータを検索できる" do
-      expect(Item.selected("low")).to include(items[0])
+      expect(Item.price_range("low")).to include(items[0])
     end
   end
 
   describe 'middle' do
     it "スコープ「middle」で「10,000 <= target_price <= 19,999」のデータを検索できる" do
-      expect(Item.selected("middle")).to include(items[1],items[2])
+      expect(Item.price_range("middle")).to include(items[1],items[2])
     end
   end
 
   describe 'high' do
     it "スコープ「high」で「target_price >= 20,000」のデータを検索できる" do
-      expect(Item.selected("high")).to include(items[3])
+      expect(Item.price_range("high")).to include(items[3])
     end
   end
 
   describe 'toy_game' do
     it "categoryが「toy_game」のアイテムを検索できる" do
-      expect(Item.selected("toy_game")).to include(items[0])
+      expect(Item.category("toy_game")).to include(items[0])
     end
   end
 
   describe 'outdoors_sports' do
     it "categoryが「outdoors_sports」のアイテムを検索できる" do
-      expect(Item.selected("outdoors_sports")).to include(items[1])
+      expect(Item.category("outdoors_sports")).to include(items[1])
     end
   end
 
   describe 'workspace' do
     it "categoryが「workspace」のアイテムを検索できる" do
-      expect(Item.selected("workspace")).to include(items[2])
+      expect(Item.category("workspace")).to include(items[2])
     end
   end
 
   describe 'life_style' do
     it "categoryが「life_style」のアイテムを検索できる" do
-      expect(Item.selected("life_style")).to include(items[3])
+      expect(Item.category("life_style")).to include(items[3])
     end
   end
 
   describe 'other' do
     it "categoryが「other」のアイテムを検索できる" do
-      expect(Item.selected("other")).to include(items[4])
+      expect(Item.category("other")).to include(items[4])
+    end
+  end
+
+  describe 'other' do
+    it "categoryが「other」のアイテムを検索できる" do
+      expect(Item.category("other")).to include(items[4])
     end
   end
 end

@@ -23,23 +23,24 @@ class Item < ActiveRecord::Base
   scope :middle, -> { where target_price: 10000..19999 }          #10,000 〜 19,999円
   scope :high, -> { where target_price: 20000..Float::INFINITY }  #20,000円以上
 
-  scope :toy_game, -> { where category: 0 }
-  scope :outdoors_sports, -> { where category: 1 }
-  scope :workspace, -> { where category: 2 }
-  scope :life_style, -> { where category: 3 }
-  scope :other, -> { where category: 4 }
-
-  scope :selected, ->(select) {
-      return low if select == 'low'
-      return middle if select == 'middle'
-      return high if select == 'high'
-      return toy_game if select == 'toy_game'
-      return outdoors_sports if select == 'outdoors_sports'
-      return workspace if select == 'workspace'
-      return life_style if select == 'life_style'
-      return other if select == 'other'
-      all # 条件に合わなければall
+  scope :price_range, ->(price) {
+    return low if price == 'low'
+    return middle if price == 'middle'
+    return high if price == 'high'
+    all # 条件に合わなければall
   }
+
+  scope :category, ->(category) {
+    return toy_game if category == 'toy_game'
+    return outdoors_sports if category == 'outdoors_sports'
+    return workspace if category == 'workspace'
+    return life_style if category == 'life_style'
+    return other if category == 'other'
+    all # 条件に合わなければall
+  }
+
+  # enum
+  enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
 
   #check if you can edit
   def editable_by?(user)
@@ -66,9 +67,6 @@ class Item < ActiveRecord::Base
   def favorited_by?(user)
     self.find_fav(user).present?
   end
-
-  # enum
-  enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
 
   #Convert ZENKAKU to HANKAKU characters
   def target_price=(value)

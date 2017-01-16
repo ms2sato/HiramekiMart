@@ -1,17 +1,16 @@
 <h1>アイテム一覧</h1>
 
-<p>▼<%= link_to '検索条件クリア', root_path %></p>
-<p>▼ 価格帯で検索</p>
-  <button><%= link_to '〜　９,９９９円', root_path(select: "low") %></button>
-  <button><%= link_to '１０,０００　〜　１９,９９９円', root_path(select: "middle") %></button>
-  <button><%= link_to '２０,０００円　〜', root_path(select: "high") %></button>
-<p>▼ カテゴリーで検索</p>
-  <div>
-    <%= form_tag(root_path, method: :get) do %>
-    <%= select_tag :select, options_for_select(Item.categories_i18n.invert), prompt: "選択してください" %>
-    <%= submit_tag "検索" %>
-    <% end %>
-  </div>
+  <%= form_tag(root_path, method: :get) do %>
+    <h2>▼ 価格帯で検索</h2>
+      <%= radio_button_tag 'price', '', true %>選択なし
+      <%= radio_button_tag 'price', 'low' %>〜９,９９９円
+      <%= radio_button_tag 'price', 'middle' %>１０,０００円〜１９,９９９円
+      <%= radio_button_tag 'price', 'high' %>２０,０００円〜
+    <h2>▼ カテゴリーで検索</h2>
+      <%= select_tag :category, options_for_select(Item.categories_i18n.invert), prompt: "選択なし" %>
+    <p><%= submit_tag "検索" %></p>
+  <% end %>
+
 <hr>
 <%= render "item",items: @items %>
 <br>

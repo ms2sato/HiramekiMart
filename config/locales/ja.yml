@@ -1,5 +1,10 @@
 ---
 ja:
+  views:
+    pagination:
+      previous: "« 前ページ"
+      next: "次ページ »"
+      truncate: "..."
   enums:
     item:
       category:
@@ -8,6 +13,10 @@ ja:
         workspace: ワークスペース
         life_style: ライフスタイル
         other: その他
+      status:
+        available: 進行中
+        success: 達成
+        give_up: 不達
   activerecord:
     errors:
       messages:
@@ -26,6 +35,7 @@ ja:
         updated_at: 更新日時
         target_price: 目標金額
         category: カテゴリー
+        support_course: 支援コース額
       user:
         id: ID
         email: メールアドレス

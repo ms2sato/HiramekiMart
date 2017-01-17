@@ -17,6 +17,10 @@ class Item < ActiveRecord::Base
     end
   end
   validates :category, presence: true
+  validates :support_course, presence: true, numericality: {
+            only_integer: true, greater_than: 0
+          }
+  validates :status, presence: true
 
   #scope
   scope :low, -> { where target_price: 1..9999 }                  # 1 〜 19,999円
@@ -41,6 +45,7 @@ class Item < ActiveRecord::Base
 
   # enum
   enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
+  enum status: { available: 0, success: 1, give_up: 2 }
 
   #check if you can edit
   def editable_by?(user)

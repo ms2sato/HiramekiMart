@@ -42,7 +42,7 @@
 <% end %>
 
 <h3>お気に入りアイテム</h3>
-<%= render "items/item", items: current_user.favorited_items %>
+<%= render "items/item", items: current_user.favorited_items.page(params[:page]) %>
 
 <h3>Cancel my account</h3>
 

@@ -171,12 +171,14 @@ end
 describe 'scope' do
   let(:items) {
     [
-      FactoryGirl.create(:item, target_price: 9999),
-      FactoryGirl.create(:item, target_price: 10000),
-      FactoryGirl.create(:item, target_price: 19999),
-      FactoryGirl.create(:item, target_price: 20000)
+      FactoryGirl.create(:item, target_price: 9999, category: :toy_game),
+      FactoryGirl.create(:item, target_price: 10000, category: :outdoors_sports),
+      FactoryGirl.create(:item, target_price: 19999, category: :workspace),
+      FactoryGirl.create(:item, target_price: 20000, category: :life_style),
+      FactoryGirl.create(:item, target_price: 30000, category: :other)
     ]
   }
+
   describe 'low' do
     it "スコープ「low」で「target_price <= 9,999」のデータを検索できる" do
       expect(Item.price_range("low")).to include(items[0])
@@ -192,6 +194,36 @@ describe 'scope' do
   describe 'high' do
     it "スコープ「high」で「target_price >= 20,000」のデータを検索できる" do
       expect(Item.price_range("high")).to include(items[3])
+    end
+  end
+
+  describe 'toy_game' do
+    it "categoryが「toy_game」のアイテムを検索できる" do
+      expect(Item.category("toy_game")).to include(items[0])
+    end
+  end
+
+  describe 'outdoors_sports' do
+    it "categoryが「outdoors_sports」のアイテムを検索できる" do
+      expect(Item.category("outdoors_sports")).to include(items[1])
+    end
+  end
+
+  describe 'workspace' do
+    it "categoryが「workspace」のアイテムを検索できる" do
+      expect(Item.category("workspace")).to include(items[2])
+    end
+  end
+
+  describe 'life_style' do
+    it "categoryが「life_style」のアイテムを検索できる" do
+      expect(Item.category("life_style")).to include(items[3])
+    end
+  end
+
+  describe 'other' do
+    it "categoryが「other」のアイテムを検索できる" do
+      expect(Item.category("other")).to include(items[4])
     end
   end
 end

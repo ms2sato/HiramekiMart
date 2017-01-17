@@ -28,10 +28,19 @@ class Item < ActiveRecord::Base
   scope :high, -> { where target_price: 20000..Float::INFINITY }  #20,000円以上
 
   scope :price_range, ->(price) {
-      return low if price == 'low'
-      return middle if price == 'middle'
-      return high if price == 'high'
-      all # 条件に合わなければall
+    return low if price == 'low'
+    return middle if price == 'middle'
+    return high if price == 'high'
+    all # 条件に合わなければall
+  }
+
+  scope :category, ->(category) {
+    return toy_game if category == 'toy_game'
+    return outdoors_sports if category == 'outdoors_sports'
+    return workspace if category == 'workspace'
+    return life_style if category == 'life_style'
+    return other if category == 'other'
+    all # 条件に合わなければall
   }
 
   # enum

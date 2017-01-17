@@ -45,7 +45,7 @@
   </div>
   <div class="field">
     <%= f.label :category %><br>
-    <%= f.select :category, Item.categories_i18n.invert, :prompt => "選択してください" %>
+    <%= f.select :category, Item.categories_i18n.invert, prompt: "選択してください"  %>
   </div>
   <div class="actions">
     <%= f.submit %>

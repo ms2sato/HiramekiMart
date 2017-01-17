@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.price_range(params[:price])
+    @items = Item.price_range(params[:price]).category(params[:category]).page(params[:page])
   end
 
   # GET /items/1
@@ -72,7 +72,9 @@ class ItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params.require(:item).permit(:user_id, :name, :image, :image_cache, :description, :target_price, :limited_at, :category)
+      params.require(:item).permit(
+        :user_id, :name, :image, :image_cache, :description, :target_price, :limited_at, :category, :support_course
+      )
     end
 
     # Check if the owner of the item.

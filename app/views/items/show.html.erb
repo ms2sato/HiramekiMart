@@ -38,6 +38,11 @@
   <%= @item.category_i18n %>
 </p>
 
+<p>
+  <strong>支援コース:</strong>
+  <%= number_to_currency(@item.support_course, :locale => 'jp') %>
+</p>
+
 <!-- ログイン＆一般ユーザ用リンク -->
 <% if user_signed_in? && !@item.editable_by?(current_user) %>
   <p>

@@ -4,7 +4,7 @@ describe Item do
   let(:item) { FactoryGirl.build(:item) }
 
   # 以下の４つの属性に対して値をセットしてvaildとなるか確認する
-  it "user_id, name, target_price, limited_at, categoryが存在すればOK" do
+  it "user_id, name, target_price, limited_at, category, retail_price, statusが存在すればOK" do
     expect(item).to be_valid
   end
 
@@ -20,35 +20,34 @@ describe Item do
   end
 
   # target_price(目標金額)、not null、数字のみ
-
   it "target_priceが存在しなければNG" do
-      item.target_price = nil
-      expect(item).not_to be_valid
+    item.target_price = nil
+    expect(item).not_to be_valid
   end
 
   it "target_priceがアルファベットならNG" do
-      item.target_price = "A"
-      expect(item).not_to be_valid
+    item.target_price = "A"
+    expect(item).not_to be_valid
   end
 
   it "target_priceが記号ならNG" do
     item.target_price = "@"
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 
   it "target_priceがひらがなならNG" do
     item.target_price = "あ"
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 
   it "target_priceがゼロならNG" do
     item.target_price = 0
-      expect(item).not_to be_valid
+    expect(item).not_to be_valid
   end
 
   it "target_priceが全角数字なら半角に変換される" do
     item.target_price = "１２３４５"
-      expect(item.target_price).to eq 12345
+    expect(item.target_price).to eq 12345
   end
 
   # limited_at(募集期間の終了日)、過去の日付は不可
@@ -59,6 +58,26 @@ describe Item do
 
   it "categoryが存在しなければNG" do
     item.category = nil
+    expect(item).not_to be_valid
+  end
+
+  it "support_courseが存在しなければNG" do
+    item.support_course = nil
+    expect(item).not_to be_valid
+  end
+
+  it "support_courseがひらがなならNG" do
+    item.support_course = "あ"
+    expect(item).not_to be_valid
+  end
+
+  it "support_courseがゼロならNG" do
+    item.support_course = 0
+    expect(item).not_to be_valid
+  end
+
+  it "statusが存在しなければNG" do
+    item.status = nil
     expect(item).not_to be_valid
   end
 end
@@ -152,12 +171,14 @@ end
 describe 'scope' do
   let(:items) {
     [
-      FactoryGirl.create(:item, target_price: 9999),
-      FactoryGirl.create(:item, target_price: 10000),
-      FactoryGirl.create(:item, target_price: 19999),
-      FactoryGirl.create(:item, target_price: 20000)
+      FactoryGirl.create(:item, target_price: 9999, category: :toy_game),
+      FactoryGirl.create(:item, target_price: 10000, category: :outdoors_sports),
+      FactoryGirl.create(:item, target_price: 19999, category: :workspace),
+      FactoryGirl.create(:item, target_price: 20000, category: :life_style),
+      FactoryGirl.create(:item, target_price: 30000, category: :other)
     ]
   }
+
   describe 'low' do
     it "スコープ「low」で「target_price <= 9,999」のデータを検索できる" do
       expect(Item.price_range("low")).to include(items[0])
@@ -173,6 +194,36 @@ describe 'scope' do
   describe 'high' do
     it "スコープ「high」で「target_price >= 20,000」のデータを検索できる" do
       expect(Item.price_range("high")).to include(items[3])
+    end
+  end
+
+  describe 'toy_game' do
+    it "categoryが「toy_game」のアイテムを検索できる" do
+      expect(Item.category("toy_game")).to include(items[0])
+    end
+  end
+
+  describe 'outdoors_sports' do
+    it "categoryが「outdoors_sports」のアイテムを検索できる" do
+      expect(Item.category("outdoors_sports")).to include(items[1])
+    end
+  end
+
+  describe 'workspace' do
+    it "categoryが「workspace」のアイテムを検索できる" do
+      expect(Item.category("workspace")).to include(items[2])
+    end
+  end
+
+  describe 'life_style' do
+    it "categoryが「life_style」のアイテムを検索できる" do
+      expect(Item.category("life_style")).to include(items[3])
+    end
+  end
+
+  describe 'other' do
+    it "categoryが「other」のアイテムを検索できる" do
+      expect(Item.category("other")).to include(items[4])
     end
   end
 end

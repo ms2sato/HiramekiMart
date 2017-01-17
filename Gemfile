@@ -31,6 +31,8 @@ gem 'autonumeric-rails'
 gem 'devise'
 #enum 日本語化
 gem 'enum_help'
+#ページネーション
+gem 'kaminari'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -29,6 +29,10 @@
     <%= f.label :target_price %><br>
     <%= f.text_field :target_price, data: { autonumeric: { aSign: '¥ ', mDec: 0 } }%>
   </div>
+  <div class="field">
+    <%= f.label :support_course %><br>
+    <%= f.text_field :support_course, data: { autonumeric: { aSign: '¥ ', mDec: 0 } }%>
+  </div>
 
   <div class="field">
     <%= f.label :limited_at %><br>
@@ -41,7 +45,7 @@
   </div>
   <div class="field">
     <%= f.label :category %><br>
-    <%= f.select :category, Item.categories_i18n.invert, :prompt => "選択してください" %>
+    <%= f.select :category, Item.categories_i18n.invert, prompt: "選択してください"  %>
   </div>
   <div class="actions">
     <%= f.submit %>

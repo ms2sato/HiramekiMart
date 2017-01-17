@@ -17,6 +17,10 @@ class Item < ActiveRecord::Base
     end
   end
   validates :category, presence: true
+  validates :support_course, presence: true, numericality: {
+            only_integer: true, greater_than: 0
+          }
+  validates :status, presence: true
 
   #scope
   scope :low, -> { where target_price: 1..9999 }                  # 1 〜 19,999円
@@ -24,11 +28,24 @@ class Item < ActiveRecord::Base
   scope :high, -> { where target_price: 20000..Float::INFINITY }  #20,000円以上
 
   scope :price_range, ->(price) {
-      return low if price == 'low'
-      return middle if price == 'middle'
-      return high if price == 'high'
-      all # 条件に合わなければall
+    return low if price == 'low'
+    return middle if price == 'middle'
+    return high if price == 'high'
+    all # 条件に合わなければall
   }
+
+  scope :category, ->(category) {
+    return toy_game if category == 'toy_game'
+    return outdoors_sports if category == 'outdoors_sports'
+    return workspace if category == 'workspace'
+    return life_style if category == 'life_style'
+    return other if category == 'other'
+    all # 条件に合わなければall
+  }
+
+  # enum
+  enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
+  enum status: { available: 0, success: 1, give_up: 2 }
 
   #check if you can edit
   def editable_by?(user)
@@ -55,9 +72,6 @@ class Item < ActiveRecord::Base
   def favorited_by?(user)
     self.find_fav(user).present?
   end
-
-  # enum
-  enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
 
   #Convert ZENKAKU to HANKAKU characters
   def target_price=(value)

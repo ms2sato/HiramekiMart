@@ -5,6 +5,8 @@ FactoryGirl.define do
     target_price 100
     limited_at Date.today
     category 0
+    support_course 1000
+    status 0
     user # ファクトリよびだし
   end
 end

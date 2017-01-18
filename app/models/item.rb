@@ -2,6 +2,7 @@ class Item < ActiveRecord::Base
   #relation
   belongs_to :user
   has_many :supports, dependent: :destroy
+  has_many :supporters, through: :supports, source: :user
   has_many :favorites, dependent: :destroy
   #Imgge_uploader
   mount_uploader :image, ImageUploader
@@ -77,5 +78,27 @@ class Item < ActiveRecord::Base
   def target_price=(value)
     value.tr!('０-９', '0-9') if value.is_a?(String)
     super(value)
+  end
+
+  #Check Item's total_amount
+  def total_amount
+    self.supports.count * self.support_course
+  end
+
+  #chenge status give_up
+  def self.change_to_give_up
+    self.available.where('limited_at < ?', Date.today).update_all(status: 2)
+  end
+
+  #chenge status success and send mails
+  def self.change_to_success
+    items = self.available
+    items.each do |item|
+      if item.total_amount >= item.target_price
+        item.success!
+        PostMailer.post_email_owner(item).deliver
+        PostMailer.post_email_costmer(item).deliver
+      end
+    end
   end
 end

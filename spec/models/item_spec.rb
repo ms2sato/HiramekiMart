@@ -168,6 +168,33 @@ describe 'owner?' do
   end
 end
 
+describe 'succeeded?' do
+  let(:item) { FactoryGirl.create(:item, target_price: 100, support_course: 100) }
+
+  it "target_price以上の資金を集めているので、真" do
+    item.supports.create(user_id: item.user.id)
+    expect(item.succeeded?).to eq true
+  end
+
+  it "target_price以上の資金を集めていないので、偽" do
+    expect(item.succeeded?).to eq false
+  end
+end
+
+describe 'available?' do
+  let(:item) { FactoryGirl.create(:item) }
+
+  # itemのownerかどうか真偽値で返す＊＊
+  it "limited_at(期限)を過ぎていないので、真" do
+    expect(item.available?).to eq true
+  end
+
+  it "limited_at(期限)を過ぎているので、偽" do
+    item.limited_at = Date.today - 1
+    expect(item.available?).to eq false
+  end
+end
+
 describe 'scope' do
   let(:items) {
     [
@@ -223,6 +250,13 @@ describe 'scope' do
 
   describe 'other' do
     it "categoryが「other」のアイテムを検索できる" do
+      expect(Item.category("other")).to include(items[4])
+    end
+  end
+
+  describe 'limited' do
+    it "limited_at(募集期間)を過ぎているアイテムを検索できる" do
+      items[4].limited_at=Date.today - 1
       expect(Item.category("other")).to include(items[4])
     end
   end

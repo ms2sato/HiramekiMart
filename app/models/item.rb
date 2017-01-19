@@ -44,6 +44,8 @@ class Item < ActiveRecord::Base
     all # 条件に合わなければall
   }
 
+  scope :limited, -> { where('limited_at < ?', Date.today) }
+
   # enum
   enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
   enum status: { available: 0, success: 1, give_up: 2 }
@@ -80,25 +82,41 @@ class Item < ActiveRecord::Base
     super(value)
   end
 
+  #Search successful item
+  def succeeded?
+    self.total_amount >= self.target_price
+  end
+
+  #Search successful item
+  def available?
+    self.limited_at >= Date.today
+  end
+
   #Check Item's total_amount
   def total_amount
     self.supports.count * self.support_course
   end
 
   #chenge status give_up
-  def self.change_to_give_up
-    self.available.where('limited_at < ?', Date.today).update_all(status: 2)
+  def self.change_to_give_up_if_limited
+    limited = self.available.limited.update_all(status: self.available.limited.statuses[:give_up])
+    Rails.application.config.batch_logger.info ("give_up に変更 #{limited}個")
   end
 
   #chenge status success and send mails
   def self.change_to_success
     items = self.available
     items.each do |item|
-      if item.total_amount >= item.target_price
+      i = 0
+      if item.succeeded? && item.available?
         item.success!
         PostMailer.post_email_owner(item).deliver
         PostMailer.post_email_costmer(item).deliver
+        Rails.application.config.batch_logger.info ("success に変更 Item.id=#{item.id}")
+        i = i + 1
       end
+      Rails.application.config.batch_logger.info ("success に変更 #{i}個")
     end
   end
+
 end

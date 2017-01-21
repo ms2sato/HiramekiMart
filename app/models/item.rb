@@ -100,7 +100,6 @@ class Item < ActiveRecord::Base
   #chenge status give_up
   def self.change_to_give_up_if_limited
     limited = self.available.limited.update_all(status: self.available.limited.statuses[:give_up])
-    Rails.application.config.batch_logger.info ("give_up に変更 #{limited}個")
   end
 
   #chenge status success and send mails
@@ -110,13 +109,8 @@ class Item < ActiveRecord::Base
       i = 0
       if item.succeeded? && item.available?
         item.success!
-        PostMailer.post_email_owner(item).deliver
-        PostMailer.post_email_costmer(item).deliver
-        Rails.application.config.batch_logger.info ("success に変更 Item.id=#{item.id}")
-        i = i + 1
+        yield(item)
       end
-      Rails.application.config.batch_logger.info ("success に変更 #{i}個")
     end
   end
-
 end

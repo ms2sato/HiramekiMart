@@ -181,20 +181,6 @@ describe 'succeeded?' do
   end
 end
 
-describe 'available?' do
-  let(:item) { FactoryGirl.create(:item) }
-
-  # itemのownerかどうか真偽値で返す＊＊
-  it "limited_at(期限)を過ぎていないので、真" do
-    expect(item.available?).to eq true
-  end
-
-  it "limited_at(期限)を過ぎているので、偽" do
-    item.limited_at = Date.today - 1
-    expect(item.available?).to eq false
-  end
-end
-
 describe 'scope' do
   let(:items) {
     [
@@ -253,11 +239,37 @@ describe 'scope' do
       expect(Item.category("other")).to include(items[4])
     end
   end
+end
 
-  describe 'limited' do
-    it "limited_at(募集期間)を過ぎているアイテムを検索できる" do
-      items[4].limited_at=Date.today - 1
-      expect(Item.category("other")).to include(items[4])
+describe 'scope' do
+
+  let!(:item) { FactoryGirl.create(:item, limited_at: Date.today) }
+
+  describe 'over_limited' do
+    it "募集期間を過ぎているアイテムを検索できる" do
+      Timecop.travel(1.day.from_now) do
+        expect(Item.over_limited).to include item
+      end
+
+      Timecop.travel(1.day.ago) do
+        expect(Item.over_limited).not_to include item
+      end
+
+      expect(Item.over_limited).not_to include item
+    end
+  end
+
+  describe 'under_limited' do
+    it "募集期間中を過ぎていないアイテムを検索できる" do
+      Timecop.travel(1.day.from_now) do
+        expect(Item.under_limited).not_to include item
+      end
+
+      Timecop.travel(1.day.ago) do
+        expect(Item.under_limited).to include item
+      end
+
+      expect(Item.under_limited).to include item
     end
   end
 end

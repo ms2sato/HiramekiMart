@@ -44,7 +44,8 @@ class Item < ActiveRecord::Base
     all # 条件に合わなければall
   }
 
-  scope :limited, -> { where('limited_at < ?', Date.today) }
+  scope :over_limited, -> { where('limited_at < ?', Date.today) }
+  scope :under_limited, -> { where('limited_at >= ?', Date.today) }
 
   # enum
   enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
@@ -82,32 +83,25 @@ class Item < ActiveRecord::Base
     super(value)
   end
 
-  #Search successful item
-  def succeeded?
-    self.total_amount >= self.target_price
-  end
-
-  #Search successful item
-  def available?
-    self.limited_at >= Date.today
-  end
-
   #Check Item's total_amount
   def total_amount
     self.supports.count * self.support_course
   end
 
+  def succeeded?
+    self.total_amount >= self.target_price
+  end
+
   #chenge status give_up
   def self.change_to_give_up_if_limited
-    limited = self.available.limited.update_all(status: self.available.limited.statuses[:give_up])
+    self.available.over_limited.update_all(status: self.available.over_limited.statuses[:give_up])
   end
 
   #chenge status success and send mails
   def self.change_to_success
-    items = self.available
+    items = self.available.under_limited
     items.each do |item|
-      i = 0
-      if item.succeeded? && item.available?
+      if item.succeeded?
         item.success!
         yield(item)
       end

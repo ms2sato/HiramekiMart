@@ -39,6 +39,11 @@
 </p>
 
 <p>
+  <strong>ステータス:</strong>
+  <%= @item.status_i18n %>
+</p>
+
+<p>
   <strong>支援コース:</strong>
   <%= number_to_currency(@item.support_course, :locale => 'jp') %>
 </p>

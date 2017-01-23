@@ -2,6 +2,7 @@ class Item < ActiveRecord::Base
   #relation
   belongs_to :user
   has_many :supports, dependent: :destroy
+  has_many :supporters, through: :supports, source: :user
   has_many :favorites, dependent: :destroy
   #Imgge_uploader
   mount_uploader :image, ImageUploader
@@ -43,6 +44,9 @@ class Item < ActiveRecord::Base
     all # 条件に合わなければall
   }
 
+  scope :over_limited, -> { where('limited_at < ?', Date.today) }
+  scope :under_limited, -> { where('limited_at >= ?', Date.today) }
+
   # enum
   enum category: { toy_game: 0, outdoors_sports: 1, workspace: 2, life_style: 3, other: 4 }
   enum status: { available: 0, success: 1, give_up: 2 }
@@ -77,5 +81,30 @@ class Item < ActiveRecord::Base
   def target_price=(value)
     value.tr!('０-９', '0-9') if value.is_a?(String)
     super(value)
+  end
+
+  #Check Item's total_amount
+  def total_amount
+    self.supports.count * self.support_course
+  end
+
+  def succeeded?
+    self.total_amount >= self.target_price
+  end
+
+  #chenge status give_up
+  def self.change_to_give_up_if_limited
+    self.available.over_limited.update_all(status: self.available.over_limited.statuses[:give_up])
+  end
+
+  #chenge status success and send mails
+  def self.change_to_success
+    items = self.available.under_limited
+    items.each do |item|
+      if item.succeeded?
+        item.success!
+        yield(item)
+      end
+    end
   end
 end

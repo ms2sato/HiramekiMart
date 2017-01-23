@@ -168,6 +168,19 @@ describe 'owner?' do
   end
 end
 
+describe 'succeeded?' do
+  let(:item) { FactoryGirl.create(:item, target_price: 100, support_course: 100) }
+
+  it "target_price以上の資金を集めているので、真" do
+    item.supports.create(user_id: item.user.id)
+    expect(item.succeeded?).to eq true
+  end
+
+  it "target_price以上の資金を集めていないので、偽" do
+    expect(item.succeeded?).to eq false
+  end
+end
+
 describe 'scope' do
   let(:items) {
     [
@@ -224,6 +237,39 @@ describe 'scope' do
   describe 'other' do
     it "categoryが「other」のアイテムを検索できる" do
       expect(Item.category("other")).to include(items[4])
+    end
+  end
+end
+
+describe 'scope' do
+
+  let!(:item) { FactoryGirl.create(:item, limited_at: Date.today) }
+
+  describe 'over_limited' do
+    it "募集期間を過ぎているアイテムを検索できる" do
+      Timecop.travel(1.day.from_now) do
+        expect(Item.over_limited).to include item
+      end
+
+      Timecop.travel(1.day.ago) do
+        expect(Item.over_limited).not_to include item
+      end
+
+      expect(Item.over_limited).not_to include item
+    end
+  end
+
+  describe 'under_limited' do
+    it "募集期間中を過ぎていないアイテムを検索できる" do
+      Timecop.travel(1.day.from_now) do
+        expect(Item.under_limited).not_to include item
+      end
+
+      Timecop.travel(1.day.ago) do
+        expect(Item.under_limited).to include item
+      end
+
+      expect(Item.under_limited).to include item
     end
   end
 end
